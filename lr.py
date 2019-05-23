@@ -57,3 +57,21 @@ train.head(2)
 train.drop(['Sex','Embarked','Name','Ticket'], axis=1,inplace=True)
 train.head(5)
 train.drop('PassengerId', axis=1, inplace=True)
+
+X = train.drop('Survived', axis=1)
+y = train['Survived']
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
+
+from sklearn.linear_model import LogisticRegression
+logmodel = LogisticRegression()
+logmodel.fit(X_train,y_train)
+
+preds = logmodel.predict(X_test)
+
+from sklearn.metrics import classification_report
+print(classification_report(y_test, preds))
+
+from sklearn.metrics import confusion_matrix
+confusion_matrix(y_test, preds)
