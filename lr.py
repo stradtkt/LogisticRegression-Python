@@ -35,6 +35,7 @@ sns.boxplot(x='Pclass', y='Age', data=train)
 def impute_age(cols):
     Age = cols[0]
     Pclass = cols[1]
+    
     if pd.isnull(Age):
         if Pclass == 1:
             return 37
@@ -44,3 +45,15 @@ def impute_age(cols):
             return 24
     else:
         return Age
+    
+train['Age'] = train[['Age','Pclass']].apply(impute_age, axis=1)
+sns.heatmap(train.isnull(), yticklabels=False, cbar=False, cmap='viridis')
+train.drop('Cabin', axis=1, inplace=True)
+
+sex = pd.get_dummies(train['Sex'], drop_first=True)
+embark = pd.get_dummies(train['Embarked'], drop_first=True)
+train = pd.concat([train,sex,embark], axis=1)
+train.head(2)
+train.drop(['Sex','Embarked','Name','Ticket'], axis=1,inplace=True)
+train.head(5)
+train.drop('PassengerId', axis=1, inplace=True)
