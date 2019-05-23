@@ -33,3 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_
 from sklearn.linear_model import LogisticRegression
 logmodel = LogisticRegression()
 logmodel.fit(X_train, y_train)
+preds = logmodel.predict(X_test)
+from sklearn.metrics import classification_report, confusion_matrix
+print(classification_report(y_test, preds))
+print(confusion_matrix(y_test, preds))
